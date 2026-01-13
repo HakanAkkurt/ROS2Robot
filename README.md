@@ -3,11 +3,11 @@
 <br>
 
 <p align="center">
-  <img src="https://github.com/HakanAkkurt/ROS2Robot/blob/master/Screenshots/ROS2RobotScreenshot1.jpg" width="1800" title="ROSMASTER A1">
+  <img src="https://github.com/HakanAkkurt/ROS2Robot/blob/master/Screenshots/ROS2RobotScreenshot1.png" width="1800" title="ROSMASTER A1">
 </p>
 
 <p align="center">
-  <img src="https://github.com/HakanAkkurt/ROS2Robot/blob/master/Screenshots/ROS2RobotScreenshot2.png" width="1800" title="ROSMASTER A1 Simulation">
+  <img src="https://github.com/HakanAkkurt/ROS2Robot/blob/master/Screenshots/ROS2RobotScreenshot2.jpg" width="1800" title="ROSMASTER A1 Simulation">
 </p>
 
 <p align="center">
@@ -15,5 +15,5 @@
 </p>
 
 <p align="center">
-  <img src="https://github.com/HakanAkkurt/ROS2Robot/blob/master/Screenshots/ROS2RobotScreenshot3.png" width="1800" title="Bumperbot">
+  <img src="https://github.com/HakanAkkurt/ROS2Robot/blob/master/Screenshots/ROS2RobotScreenshot4.png" width="1800" title="Bumperbot">
 </p>
