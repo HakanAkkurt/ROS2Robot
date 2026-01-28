@@ -7,9 +7,16 @@ endif()
 
 find_package(ament_cmake REQUIRED)
 
+ament_python_install_package(${PROJECT_NAME})
+
 install(
   DIRECTORY config launch behavior_tree rviz
   DESTINATION share/${PROJECT_NAME}
+)
+
+install(PROGRAMS
+  ${PROJECT_NAME}/patrol_node.py
+  DESTINATION lib/${PROJECT_NAME}
 )
 
 if(BUILD_TESTING)

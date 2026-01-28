@@ -5,7 +5,7 @@ controller_server:
     min_x_velocity_threshold: 0.001
     min_y_velocity_threshold: 0.0
     min_theta_velocity_threshold: 0.001
-    failure_tolerance: 0.0
+    failure_tolerance: 0.3
     odom_topic: /odom
     progress_checker_plugin: "progress_checker"
     goal_checker_plugins: ["general_goal_checker"]
@@ -19,17 +19,17 @@ controller_server:
     general_goal_checker:
       plugin: "nav2_controller::SimpleGoalChecker"
       xy_goal_tolerance: 0.25
-      yaw_goal_tolerance: 0.6
+      yaw_goal_tolerance: 6.0
       stateful: true
 
     FollowPath:
       plugin: "nav2_regulated_pure_pursuit_controller::RegulatedPurePursuitController"
       desired_linear_vel: 0.3
-      min_linear_velocity: 0.12
-      lookahead_dist: 0.8
-      min_lookahead_dist: 0.6
+      min_linear_velocity: 0.0
+      lookahead_dist: 0.6
+      min_lookahead_dist: 0.4
       max_lookahead_dist: 1.0
-      lookahead_time: 1.5
+      lookahead_time: 2.0
       rotate_to_heading_angular_vel: 0.0
       use_rotate_to_heading: false
       rotate_to_heading_min_angle: 1.57
@@ -61,7 +61,7 @@ local_costmap:
       width: 3
       height: 3
       resolution: 0.05
-      robot_radius: 0.20
+      robot_radius: 0.15
       plugins: ["obstacle_layer", "inflation_layer"]
       inflation_layer:
         plugin: "nav2_costmap_2d::InflationLayer"
