@@ -145,8 +145,8 @@ def generate_launch_description():
     
     yolo_node = Node(
         package='bumperbot_utils',
-        executable='yolo_navigation_monitor.py',
-        name='yolo_navigation_monitor',
+        executable='yolo_detection_monitor.py',
+        name='yolo_detection_monitor',
         parameters=[{
             'use_display': LaunchConfiguration('use_display')
         }],

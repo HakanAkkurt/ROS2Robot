@@ -10,9 +10,9 @@ import json
 from ament_index_python.packages import get_package_share_directory
 from ultralytics import YOLO
 
-class YoloNavigationMonitor(Node):
+class YoloDetectionMonitor(Node):
     def __init__(self):
-        super().__init__('yolo_navigation_monitor')
+        super().__init__('yolo_detection_monitor')
         self.bridge = CvBridge()
 
         # Allows toggling the GUI window via ROS2 parameters or launch files
@@ -25,7 +25,7 @@ class YoloNavigationMonitor(Node):
             self.use_display = False
         
         # Get path to the weights file located in the package share directory
-        package_share_dir = get_package_share_directory('bumperbot_controller')
+        package_share_dir = get_package_share_directory('bumperbot_utils')
         model_path = os.path.join(package_share_dir, 'yolo', 'yolov8n.pt')
         
         self.get_logger().info(f'Loading YOLO model from: {model_path}')
@@ -95,7 +95,7 @@ class YoloNavigationMonitor(Node):
 
 def main(args=None):
     rclpy.init(args=args)
-    node = YoloNavigationMonitor()
+    node = YoloDetectionMonitor()
     try:
         rclpy.spin(node)
     except KeyboardInterrupt:
