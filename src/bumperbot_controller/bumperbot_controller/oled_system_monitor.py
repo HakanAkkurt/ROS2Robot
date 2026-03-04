@@ -18,7 +18,7 @@ class OLEDSystemMonitor(Node):
         serial = i2c(port=1, address=0x3C)
         self.device = sh1106(serial, rotate=0)
 
-        font_path = "/home/hakan/bitmap-fonts/bitmap/spleen/spleen-16x32.bdf"
+        font_path = "/fonts/bitmap/spleen/spleen-16x32.bdf"
         self.font = ImageFont.truetype(font_path, 32)
 
         # --- Timer Update (1 Hz) ---

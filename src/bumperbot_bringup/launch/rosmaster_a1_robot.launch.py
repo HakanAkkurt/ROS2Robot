@@ -16,12 +16,6 @@ def generate_launch_description():
         default_value="true"
     )
 
-    use_display_arg = DeclareLaunchArgument(
-        'use_display',
-        default_value='false',
-        description='Whether to display the YOLO OpenCV window'
-    )
-
     # Rosmaster Node
     hardware_interface = Node(
         package='bumperbot_controller',
@@ -143,19 +137,15 @@ def generate_launch_description():
         }.items()
     )
     
-    yolo_node = Node(
+    hailo_yolo_node = Node(
         package='bumperbot_utils',
-        executable='yolo_detection_monitor.py',
-        name='yolo_detection_monitor',
-        parameters=[{
-            'use_display': LaunchConfiguration('use_display')
-        }],
-        output='screen',
+        executable='hailo_yolo_node.py',
+        name='hailo_yolo_node',
+        output='screen'
     )
 
     return LaunchDescription([
         use_slam_arg,
-        use_display_arg,
         hardware_interface,
         odometry_node,
         laser_driver,
@@ -167,5 +157,5 @@ def generate_launch_description():
         slam,
         nav2_twist_mux,
         navigation,
-        yolo_node
+        hailo_yolo_node
     ])

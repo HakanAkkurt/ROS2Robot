@@ -17,6 +17,7 @@ ament_python_install_package(${PROJECT_NAME})
 
 install(PROGRAMS
   ${PROJECT_NAME}/safety_stop.py
+  ${PROJECT_NAME}/hailo_yolo_node.py
   ${PROJECT_NAME}/yolo_detection_monitor.py
   ${PROJECT_NAME}/follow_me_node.py
   DESTINATION lib/${PROJECT_NAME}
