@@ -110,15 +110,12 @@ class HailoYoloNode(Node):
                         
                         # Drawing on frame
                         cv2.rectangle(frame, start_point, end_point, (0, 255, 0), 2)
+                        
                         display_text = f"{label_name} {confidence:.2f}"
+                        
                         cv2.putText(frame, display_text, 
                                     (start_point[0], max(25, start_point[1]-10)), 
                                     cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 255, 0), 2)
-                        
-                        if label_name == 'sports ball':
-                            self.get_logger().info("Sports Ball detected. Stop!")
-                        else:
-                            self.get_logger().info(display_text)
 
             # Publish annotated image
             self.image_pub.publish(self.bridge.cv2_to_imgmsg(frame, encoding='bgr8'))
