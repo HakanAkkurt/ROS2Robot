@@ -15,7 +15,6 @@ install(
 )
 
 install(PROGRAMS
-  ${PROJECT_NAME}/patrol_node.py
   DESTINATION lib/${PROJECT_NAME}
 )
 

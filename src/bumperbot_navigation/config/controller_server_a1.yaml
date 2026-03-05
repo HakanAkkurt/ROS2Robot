@@ -34,7 +34,7 @@ controller_server:
       use_rotate_to_heading: false
       rotate_to_heading_min_angle: 1.57
 
-      allow_reversing: false
+      allow_reversing: true
 
       use_velocity_scaled_lookahead_dist: false
       use_regulated_linear_velocity_scaling: true

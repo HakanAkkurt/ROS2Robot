@@ -42,8 +42,8 @@ class FollowMeNode(Node):
                 angle_offset = ( (self.image_width / 2) - x_center ) * 0.001 
 
                 # 3. Create Pose in robot coordinate system (base_link)
-                # We want the robot to stop 0.8m in front of you
-                target_dist = max(0.0, distance - 0.8)
+                # We want the robot to stop 0.5m in front of you
+                target_dist = max(0.0, distance - 0.5)
                 
                 # Limit goal updates to every 1 second to not overwhelm Nav2
                 now = self.get_clock().now()
