@@ -4,7 +4,6 @@ from rclpy.node import Node
 from geometry_msgs.msg import PoseStamped
 from std_msgs.msg import String, Float32
 import json
-import math
 
 class FollowMeNode(Node):
     def __init__(self):
@@ -35,16 +34,8 @@ class FollowMeNode(Node):
         self.tilt_gain = 0.075
 
         self.last_goal_time = self.get_clock().now()
-
-        self.center_servos()
         
         self.get_logger().info('Enhanced FollowMe Node (with Camera Tracking) started!')
-
-    def center_servos(self):
-        """Sends initial center positions to the servos"""
-        self.servo_pan_pub.publish(Float32(data=float(self.current_pan)))
-        self.servo_tilt_pub.publish(Float32(data=float(self.current_tilt)))
-        self.get_logger().info(f'Servos initialized to Pan:{self.current_pan} Tilt:{self.current_tilt}')
 
     def listener_callback(self, msg):
         try:
