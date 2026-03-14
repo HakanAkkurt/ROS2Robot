@@ -66,7 +66,7 @@ class RosmasterA1Odometry(Node):
             return
 
         # ========================================
-        # 1. DELTA CALCULATION
+        # DELTA CALCULATION
         # ========================================
         d_l = (l_curr - self.l_prev) * self.meters_per_count
         d_r = (r_curr - self.r_prev) * self.meters_per_count
@@ -75,7 +75,7 @@ class RosmasterA1Odometry(Node):
         dist = (d_l + d_r) / 2.0
         
         # ========================================
-        # 2. ACKERMANN KINEMATICS
+        # ACKERMANN KINEMATICS
         # ========================================
         # Limit steering angle to prevent tan(90) explosion and noise
         steer_rad = max(min(steer_rad, 0.52), -0.52)
@@ -88,13 +88,13 @@ class RosmasterA1Odometry(Node):
             d_theta = (dist * math.tan(steer_rad)) / self.wheel_base
 
         # ========================================
-        # 3. VELOCITIES
+        # VELOCITIES
         # ========================================
         self.vx = dist / dt
         self.wz = d_theta / dt
         
         # ========================================
-        # 4. POSE INTEGRATION (Runge-Kutta 2)
+        # POSE INTEGRATION (Runge-Kutta 2)
         # ========================================
         # We use the average angle during the movement for better precision
         avg_theta = self.theta + (d_theta / 2.0)
@@ -107,7 +107,7 @@ class RosmasterA1Odometry(Node):
         self.theta = math.atan2(math.sin(self.theta), math.cos(self.theta))
         
         # ========================================
-        # 5. STORAGE & PUBLISHING
+        # STORAGE & PUBLISHING
         # ========================================
         self.l_prev = l_curr
         self.r_prev = r_curr

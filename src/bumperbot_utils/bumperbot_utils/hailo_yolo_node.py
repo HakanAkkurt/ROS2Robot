@@ -121,10 +121,9 @@ class HailoYoloNode(Node):
             data_msg.data = json.dumps(detections_list)
             self.data_pub.publish(data_msg)
 
-            # 2. Downscale frame to 320x240 to save bandwidth before publishing
-            # This makes the raw image small enough for stable WiFi
             small_frame = cv2.resize(frame, (320, 240))
             self.image_pub.publish(self.bridge.cv2_to_imgmsg(small_frame, encoding='bgr8'))
+            # self.image_pub.publish(self.bridge.cv2_to_imgmsg(frame, encoding='bgr8'))
 
         except Exception as e:
             self.get_logger().error(f"Callback error: {str(e)}")
