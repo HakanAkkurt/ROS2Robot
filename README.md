@@ -17,3 +17,13 @@
 <p align="center">
   <img src="https://github.com/HakanAkkurt/ROS2Robot/blob/master/Screenshots/ROS2RobotScreenshot4.png" width="1800" title="Bumperbot">
 </p>
+
+Installation steps:
+
+git clone https://github.com/HakanAkkurt/ROS2Robot.git
+cd <workspace>
+sudo rosdep init
+rosdep update
+rosdep install --from-paths src --ignore-src -r -y
+sudo apt install libserial-dev
+sudo apt install ros-jazzy-navigation2 ros-jazzy-nav2-bringup
