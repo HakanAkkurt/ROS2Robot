@@ -9,9 +9,6 @@ from launch_ros.actions import Node
 
 def generate_launch_description():
 
-    # bt_nav_to_pose = "/ros2_ws/src/bumperbot_project/bumperbot_navigation/behavior_tree/simple_navigation_w_replanning_and_recoveries_a1.xml"
-    # bt_nav_through_poses = "/ros2_ws/src/bumperbot_project/bumperbot_navigation/behavior_tree/simple_navigation.xml"
-
     bt_nav_to_pose = os.path.join(
         get_package_share_directory('bumperbot_navigation'),
         'behavior_tree',
