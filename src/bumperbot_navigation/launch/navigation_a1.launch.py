@@ -6,11 +6,16 @@ from launch import LaunchDescription
 from launch.actions import DeclareLaunchArgument
 from launch.substitutions import LaunchConfiguration
 from launch_ros.actions import Node
+import getpass
 
 def generate_launch_description():
 
-    bt_nav_to_pose = "/ros2_ws/src/bumperbot_project/bumperbot_navigation/behavior_tree/simple_navigation_w_replanning_and_recoveries_a1.xml"
-    bt_nav_through_poses = "/ros2_ws/src/bumperbot_project/bumperbot_navigation/behavior_tree/simple_navigation.xml"
+    username = getpass.getuser()
+    # bt_nav_to_pose = "/ros2_ws/src/bumperbot_project/bumperbot_navigation/behavior_tree/simple_navigation_w_replanning_and_recoveries_a1.xml"
+    # bt_nav_through_poses = "/ros2_ws/src/bumperbot_project/bumperbot_navigation/behavior_tree/simple_navigation.xml"
+
+    bt_nav_to_pose = f"/home/{username}/bumperbot_ws/src/bumperbot_navigation/behavior_tree/simple_navigation_w_replanning_and_recoveries_a1.xml"
+    bt_nav_through_poses = f"/home/{username}/bumperbot_ws/src/bumperbot_navigation/behavior_tree/simple_navigation.xml"
 
     use_sim_time = LaunchConfiguration("use_sim_time")
 
