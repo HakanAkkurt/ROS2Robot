@@ -21,9 +21,15 @@
 Installation steps:
 
 git clone https://github.com/HakanAkkurt/ROS2Robot.git
-cd <workspace>
+<br>
+cd "workspace"
+<br>
 sudo rosdep init
+<br>
 rosdep update
+<br>
 rosdep install --from-paths src --ignore-src -r -y
+<br>
 sudo apt install libserial-dev
+<br>
 sudo apt install ros-jazzy-navigation2 ros-jazzy-nav2-bringup
