@@ -23,7 +23,7 @@ def generate_launch_description():
 
     scan_topic_arg = DeclareLaunchArgument(
         "scan_topic",
-        default_value="/scan"
+        default_value="scan"
     )
 
     slam_config_arg = DeclareLaunchArgument(

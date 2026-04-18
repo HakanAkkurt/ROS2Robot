@@ -29,7 +29,7 @@ class RosmasterA1Odometry(Node):
         # ROS 2 Communication
         self.sub_joint = self.create_subscription(
             JointState, 
-            '/joint_states', 
+            'joint_states', 
             self.joint_callback, 
             10
         )

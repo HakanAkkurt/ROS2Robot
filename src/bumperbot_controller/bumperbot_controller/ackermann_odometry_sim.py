@@ -25,11 +25,11 @@ class AckermannOdomSim(Node):
         self.prev_time = None
 
         # --- ROS 2 Interfaces ---
-        self.sub_joint = self.create_subscription(JointState, "/joint_states", self.joint_cb, 10)
-        self.odom_pub = self.create_publisher(Odometry, "/odom", 10)
+        self.sub_joint = self.create_subscription(JointState, "joint_states", self.joint_cb, 10)
+        self.odom_pub = self.create_publisher(Odometry, "odom", 10)
         self.tf_broadcaster = TransformBroadcaster(self)
 
-        self.get_logger().info("Ackermann Odometry Sim started with RK2 integration.")
+        self.get_logger().info("Ackermann Odometry Sim started.")
 
     def joint_cb(self, msg: JointState):
         # Map joint names to their current positions
