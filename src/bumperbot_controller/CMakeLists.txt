@@ -24,6 +24,7 @@ install(
 
 install(PROGRAMS
   ${PROJECT_NAME}/ackermann_odometry_sim.py
+  ${PROJECT_NAME}/follower_goal_generator.py
   ${PROJECT_NAME}/simple_controller.py
   ${PROJECT_NAME}/noisy_controller.py
   ${PROJECT_NAME}/oled_system_monitor.py

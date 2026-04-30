@@ -8,9 +8,9 @@ class TwistToAckermann(Node):
 
         super().__init__('twist_to_ackermann')
 
-        self.pub = self.create_publisher(TwistStamped, '/ackermann_controller/reference', 10)
+        self.pub = self.create_publisher(TwistStamped, 'ackermann_controller/reference', 10)
         
-        self.sub = self.create_subscription(Twist, '/cmd_vel', self.cb_twist, 10)
+        self.sub = self.create_subscription(Twist, 'cmd_vel', self.cb_twist, 10)
 
     def cb_twist(self, msg: Twist):
         ts = TwistStamped()

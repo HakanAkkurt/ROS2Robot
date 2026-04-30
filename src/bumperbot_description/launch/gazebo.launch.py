@@ -15,10 +15,18 @@ from launch_ros.parameter_descriptions import ParameterValue
 def generate_launch_description():
     bumperbot_description = get_package_share_directory("bumperbot_description")
 
+    # Arguments
     robot_name_arg = DeclareLaunchArgument(
         "robot_name",
         default_value="rosmaster_a1",
-        description="Choose robot model: 'bumperbot' or 'rosmaster_a1'"
+        description="Name of the entity in Gazebo"
+    )
+
+    # Added namespace argument
+    namespace_arg = DeclareLaunchArgument(
+        "namespace",
+        default_value="",
+        description="ROS namespace for topics and nodes"
     )
 
     model_path_expr = PythonExpression([
@@ -54,20 +62,25 @@ def generate_launch_description():
     is_ignition = "True" if ros_distro == "humble" else "False"
 
     # Robot Description using Xacro
+    # Added namespace as an argument to xacro in case your URDF needs it for frame_prefixes
     robot_description = ParameterValue(Command([
             "xacro ",
             LaunchConfiguration("model"),
-            " is_ignition:=",
-            is_ignition
+            " is_ignition:=", is_ignition,
+            " namespace:=", LaunchConfiguration("namespace")
         ]),
         value_type=str
     )
 
+    # Robot State Publisher - Now with frame_prefix to separate TF trees
     robot_state_publisher_node = Node(
         package="robot_state_publisher",
         executable="robot_state_publisher",
-        parameters=[{"robot_description": robot_description,
-                     "use_sim_time": True}]
+        parameters=[{
+            "robot_description": robot_description,
+            "use_sim_time": True,
+            "frame_prefix": [LaunchConfiguration("namespace"), "/"]
+        }]
     )
 
     # Gazebo Simulation
@@ -79,17 +92,20 @@ def generate_launch_description():
                 }.items()
              )
 
-    # Spawn Node using the dynamic robot_name for the entity name
+    # Spawn Node
+    # We tell 'create' to look for the topic within the namespace
     gz_spawn_entity = Node(
         package="ros_gz_sim",
         executable="create",
         output="screen",
         arguments=[
-            "-topic", "robot_description",
+            "-topic", "robot_description", # Will look in /<namespace>/robot_description
             "-name", LaunchConfiguration("robot_name")
         ],
     )
 
+    # Gazebo Bridge
+    # The bridge topics are also remapped to stay inside the namespace
     gz_ros2_bridge = Node(
         package="ros_gz_bridge",
         executable="parameter_bridge",
@@ -101,12 +117,14 @@ def generate_launch_description():
             # "/camera/camera_info@sensor_msgs/msg/CameraInfo[gz.msgs.CameraInfo"
         ],
         remappings=[
-            ('/imu', '/imu/out'),
+            ('/imu', 'imu/out'), # Relative path stays inside namespace
+            ('/scan', 'scan'),   # Relative path stays inside namespace
         ]
     )
 
     return LaunchDescription([
         robot_name_arg,
+        namespace_arg,
         model_arg,
         world_name_arg,
         gazebo_resource_path,

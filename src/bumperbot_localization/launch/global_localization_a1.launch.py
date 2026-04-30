@@ -3,30 +3,49 @@ from launch import LaunchDescription
 from ament_index_python.packages import get_package_share_directory
 from launch_ros.actions import Node
 from launch.actions import DeclareLaunchArgument
-from launch.substitutions import LaunchConfiguration, PathJoinSubstitution
-
+from launch.substitutions import LaunchConfiguration, PathJoinSubstitution, PythonExpression
+from nav2_common.launch import RewrittenYaml
 
 def generate_launch_description():
-
     map_name = LaunchConfiguration("map_name")
     use_sim_time = LaunchConfiguration("use_sim_time")
     amcl_config = LaunchConfiguration("amcl_config")
+    namespace = LaunchConfiguration("namespace")
+
+    map_name_arg = DeclareLaunchArgument("map_name", default_value="small_house")
+    use_sim_time_arg = DeclareLaunchArgument("use_sim_time", default_value="true")
+    namespace_arg = DeclareLaunchArgument("namespace", default_value="leader")
+    amcl_config_arg = DeclareLaunchArgument(
+        "amcl_config",
+        default_value=os.path.join(
+            get_package_share_directory("bumperbot_localization"),
+            "config",
+            "amcl_a1.yaml"
+        )
+    )
+
+    map_path = PathJoinSubstitution([
+        get_package_share_directory("bumperbot_mapping"),
+        "maps", map_name, "map.yaml"
+    ])
+
+    param_substitutions = {
+        'use_sim_time': use_sim_time,
+        'base_frame_id':      PythonExpression(["'", namespace, "/base_footprint'"]),
+        'odom_frame_id':      PythonExpression(["'", namespace, "/odom'"]),
+        'global_frame_id':    PythonExpression(["'", namespace, "/map'"]),
+        'scan_topic':         PythonExpression(["'/", namespace, "/scan'"]),
+    }
+
+    configured_amcl_params = RewrittenYaml(
+        source_file=amcl_config,
+        root_key=namespace,
+        param_rewrites=param_substitutions,
+        convert_types=True
+    )
 
     lifecycle_nodes = ["map_server", "amcl"]
 
-    map_name_arg = DeclareLaunchArgument("map_name", default_value="small_house")
-
-    use_sim_time_arg = DeclareLaunchArgument("use_sim_time", default_value="true")
-
-    amcl_config_arg = DeclareLaunchArgument(
-        "amcl_config",
-        default_value=os.path.join(get_package_share_directory("bumperbot_localization"),
-        "config",
-        "amcl_a1.yaml")
-    )
-    
-    map_path = PathJoinSubstitution([get_package_share_directory("bumperbot_mapping"), "maps", map_name, "map.yaml"])
-    
     nav2_map_server = Node(
         package="nav2_map_server",
         executable="map_server",
@@ -34,8 +53,13 @@ def generate_launch_description():
         output="screen",
         parameters=[
             {"yaml_filename": map_path},
-            {"use_sim_time": use_sim_time}
+            {"use_sim_time": use_sim_time},
+            {"frame_id": PythonExpression(["'", namespace, "/map'"])},
         ],
+        remappings=[
+            ('/map',          PythonExpression(["'/", namespace, "/map'"])),
+            ('/map_metadata', PythonExpression(["'/", namespace, "/map_metadata'"])),
+        ]
     )
 
     nav2_amcl = Node(
@@ -45,9 +69,13 @@ def generate_launch_description():
         output="screen",
         emulate_tty=True,
         parameters=[
-            amcl_config,
+            configured_amcl_params,
             {"use_sim_time": use_sim_time},
         ],
+        remappings=[
+            ('/tf',        '/tf'),
+            ('/tf_static', '/tf_static'),
+        ]
     )
 
     nav2_lifecycle_manager = Node(
@@ -66,6 +94,7 @@ def generate_launch_description():
         map_name_arg,
         use_sim_time_arg,
         amcl_config_arg,
+        namespace_arg,
         nav2_map_server,
         nav2_amcl,
         nav2_lifecycle_manager

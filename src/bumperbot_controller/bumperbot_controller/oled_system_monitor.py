@@ -4,6 +4,7 @@ from rclpy.node import Node
 
 import psutil
 from datetime import datetime
+import zoneinfo
 
 from luma.core.interface.serial import i2c
 from luma.core.render import canvas
@@ -25,7 +26,8 @@ class OLEDSystemMonitor(Node):
         self.timer = self.create_timer(1.0, self.update_screen)
 
     def update_screen(self):
-        now = datetime.now().strftime("%H:%M:%S")
+        tz = zoneinfo.ZoneInfo("Europe/Berlin")
+        now = datetime.now(tz).strftime("%H:%M:%S")
         cpu = int(psutil.cpu_percent())
         # ram = int(psutil.virtual_memory().percent)
 

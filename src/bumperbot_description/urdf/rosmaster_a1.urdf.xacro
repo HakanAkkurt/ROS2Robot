@@ -3,6 +3,7 @@
 
    <xacro:arg name="is_ignition" default="false" />
    <xacro:arg name="is_sim" default="true" />
+   <xacro:arg name="namespace" default="leader" />
 
    <xacro:include filename="$(find bumperbot_description)/urdf/rosmaster_a1_gazebo.xacro" />
    <xacro:include filename="$(find bumperbot_description)/urdf/rosmaster_a1_ros2_control.xacro" />

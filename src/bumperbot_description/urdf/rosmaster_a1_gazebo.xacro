@@ -58,6 +58,9 @@
     <!-- ROS 2 Humble -->
     <xacro:if value="$(arg is_ignition)">
       <plugin filename="ign_ros2_control-system" name="ign_ros2_control::IgnitionROS2ControlPlugin">
+        <ros>
+          <namespace>/$(arg namespace)</namespace>
+        </ros>
         <parameters>$(find bumperbot_controller)/config/rosmaster_a1_controllers.yaml</parameters>
       </plugin>
       <plugin filename="ignition-gazebo-imu-system" name="ignition::gazebo::systems::Imu">
@@ -70,6 +73,9 @@
     <!-- ROS 2 Iron or above -->
     <xacro:unless value="$(arg is_ignition)">
       <plugin filename="gz_ros2_control-system" name="gz_ros2_control::GazeboSimROS2ControlPlugin">
+        <ros>
+          <namespace>/$(arg namespace)</namespace>
+        </ros>
         <parameters>$(find bumperbot_controller)/config/rosmaster_a1_controllers.yaml</parameters>
       </plugin>
       <plugin filename="gz-sim-imu-system" name="gz::sim::systems::Imu">
@@ -85,7 +91,7 @@
     <sensor name="imu" type="imu">
         <always_on>true</always_on>
         <update_rate>100</update_rate>
-        <gz_frame_id>imu_link</gz_frame_id>
+        <gz_frame_id>$(arg namespace)/imu_link</gz_frame_id>
         <topic>imu</topic>
         <imu>
           <angular_velocity>
@@ -139,7 +145,7 @@
       <visualize>true</visualize>
       <topic>scan</topic>
       <update_rate>20</update_rate>
-      <gz_frame_id>laser_link</gz_frame_id>
+      <gz_frame_id>$(arg namespace)/laser_link</gz_frame_id>
       <lidar>
         <scan>
           <horizontal>
@@ -170,7 +176,7 @@
       <update_rate>30.0</update_rate>
       <visualize>true</visualize>
       <topic>camera/image_raw</topic>
-      <gz_frame_id>camera_link_optical</gz_frame_id>
+      <gz_frame_id>$(arg namespace)/camera_link_optical</gz_frame_id>
       <camera name="head">
         <horizontal_fov>1.3962634</horizontal_fov>
         <image>

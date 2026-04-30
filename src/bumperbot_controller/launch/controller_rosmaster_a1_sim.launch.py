@@ -1,8 +1,6 @@
 #!/usr/bin/env python3
 
 from launch import LaunchDescription
-from launch.actions import TimerAction, RegisterEventHandler
-from launch.event_handlers import OnProcessExit
 from launch_ros.actions import Node
 from ament_index_python.packages import get_package_share_directory
 import os
@@ -16,7 +14,7 @@ def generate_launch_description():
             executable='spawner',
             arguments=[
                 'joint_state_broadcaster',
-                '--controller-manager', '/controller_manager'
+                '--controller-manager', 'controller_manager'
             ],
             output='screen'
         )
@@ -26,7 +24,7 @@ def generate_launch_description():
         executable='spawner',
         arguments=[
             'ackermann_controller',
-            '--controller-manager', '/controller_manager',
+            '--controller-manager', 'controller_manager',
             '--param-file', os.path.join(pkg_controller, 'config', 'rosmaster_a1_controllers.yaml')
         ],
         output='screen'
