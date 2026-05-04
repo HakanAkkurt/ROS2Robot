@@ -11,13 +11,13 @@ class RosmasterJoystickTeleop(Node):
 
         # --- Publishers ---
         self.pub_cmd_vel = self.create_publisher(Twist, "cmd_vel_joy", 10)
-        self.pub_servo_s1 = self.create_publisher(Float32, "/servo_s1", 10)
-        self.pub_servo_s2 = self.create_publisher(Float32, "/servo_s2", 10)
-        self.pub_servo_s3 = self.create_publisher(Float32, "/servo_s3", 10)
-        self.pub_buzzer = self.create_publisher(Bool, "/Buzzer", 10)
+        self.pub_servo_s1 = self.create_publisher(Float32, "servo_s1", 10)
+        self.pub_servo_s2 = self.create_publisher(Float32, "servo_s2", 10)
+        self.pub_servo_s3 = self.create_publisher(Float32, "servo_s3", 10)
+        self.pub_buzzer = self.create_publisher(Bool, "Buzzer", 10)
 
         # --- Subscriber ---
-        self.sub_joy = self.create_subscription(Joy, "/joy", self.joy_callback, 10)
+        self.sub_joy = self.create_subscription(Joy, "joy", self.joy_callback, 10)
 
         # --- Config: Steering (S1) ---
         self.servo_s1_center = 90.0

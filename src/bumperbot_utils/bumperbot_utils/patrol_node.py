@@ -21,7 +21,7 @@ class PatrolNode(Node):
         
         # ROS Interfaces
         self.nav_client = ActionClient(self, NavigateToPose, 'navigate_to_pose')
-        self.costmap_sub = self.create_subscription(OccupancyGrid, '/global_costmap/costmap', self.costmap_callback, 10)
+        self.costmap_sub = self.create_subscription(OccupancyGrid, 'global_costmap/costmap', self.costmap_callback, 10)
         
         self.timer = self.create_timer(1.0, self.timer_callback)
         self.get_logger().info("Patrol Node started!")

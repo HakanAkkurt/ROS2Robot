@@ -49,13 +49,13 @@ class HailoYoloNode(Node):
         self.pipeline_context = self.pipeline.__enter__()
 
         # 2. ROS Setup (Standard queue size 10)
-        self.image_sub = self.create_subscription(Image, '/camera/image_raw', self.image_callback, 10)
+        self.image_sub = self.create_subscription(Image, 'camera/image_raw', self.image_callback, 10)
         
         # Publisher for STANDARD Raw Image (Easy to see in RViz)
-        self.image_pub = self.create_publisher(Image, '/camera/yolo_result', 10)
+        self.image_pub = self.create_publisher(Image, 'camera/yolo_result', 10)
         
         # Publisher for detection metadata (JSON string for FollowMe node)
-        self.data_pub = self.create_publisher(String, '/camera/yolo_detections', 10)
+        self.data_pub = self.create_publisher(String, 'camera/yolo_detections', 10)
 
         # self.frame_count = 0
         # self.process_every_n_frames = 2

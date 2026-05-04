@@ -44,9 +44,9 @@ class RosmasterA1Node(Node):
         self.create_subscription(Bool, "Buzzer", self.buzzer_callback, 10)
         
         # Manual Servo overrides (e.g. from Joystick)
-        self.create_subscription(Float32, "/servo_s1", self.s1_callback, 10)
-        self.create_subscription(Float32, "/servo_s2", self.s2_callback, 10)
-        self.create_subscription(Float32, "/servo_s3", self.s3_callback, 10)
+        self.create_subscription(Float32, "servo_s1", self.s1_callback, 10)
+        self.create_subscription(Float32, "servo_s2", self.s2_callback, 10)
+        self.create_subscription(Float32, "servo_s3", self.s3_callback, 10)
 
         self.bridge = CvBridge()
         self.cap = cv2.VideoCapture(0) # Open default camera
@@ -54,13 +54,17 @@ class RosmasterA1Node(Node):
         self.cap.set(cv2.CAP_PROP_FRAME_WIDTH, 640)
         self.cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 480)
 
+        ns = self.get_namespace().strip("/")
+        self.imu_frame    = f"{ns}/imu_link"
+        self.camera_frame = f"{ns}/camera_link"
+
         # --- Publishers ---
-        self.pub_joint = self.create_publisher(JointState, "/joint_states", 10)
-        self.pub_imu = self.create_publisher(Imu, "/imu/data_raw", 10)
-        self.pub_mag = self.create_publisher(MagneticField, "/imu/mag", 10)
-        self.pub_voltage = self.create_publisher(Float32, "/voltage", 10)
-        self.pub_version = self.create_publisher(Float32, "/edition", 10)
-        self.pub_image = self.create_publisher(Image, "/camera/image_raw", 10)
+        self.pub_joint = self.create_publisher(JointState, "joint_states", 10)
+        self.pub_imu = self.create_publisher(Imu, "imu/data_raw", 10)
+        self.pub_mag = self.create_publisher(MagneticField, "imu/mag", 10)
+        self.pub_voltage = self.create_publisher(Float32, "voltage", 10)
+        self.pub_version = self.create_publisher(Float32, "edition", 10)
+        self.pub_image = self.create_publisher(Image, "camera/image_raw", 10)
 
         # --- Timers ---
         # 50Hz: Critical for smooth steering transitions
@@ -78,7 +82,7 @@ class RosmasterA1Node(Node):
             # Convert OpenCV image to ROS2 message
             img_msg = self.bridge.cv2_to_imgmsg(frame, encoding="bgr8")
             img_msg.header.stamp = self.get_clock().now().to_msg()
-            img_msg.header.frame_id = "camera_link"
+            img_msg.header.frame_id = self.camera_frame
             self.pub_image.publish(img_msg)
 
     def cmd_vel_callback(self, msg: Twist):
@@ -127,7 +131,7 @@ class RosmasterA1Node(Node):
         ax, ay, az = self.car.get_accelerometer_data()
         gx, gy, gz = self.car.get_gyroscope_data()
         
-        imu_msg = Imu(header=Header(stamp=now, frame_id="imu_link"))
+        imu_msg = Imu(header=Header(stamp=now, frame_id=self.imu_frame))
         imu_msg.linear_acceleration.x = float(ax)
         imu_msg.linear_acceleration.y = float(ay)
         imu_msg.linear_acceleration.z = float(az)
@@ -139,7 +143,9 @@ class RosmasterA1Node(Node):
         # Magnetometer Data (Filtered)
         mag_data = self.car.get_magnetometer_data()
         if mag_data and len(mag_data) == 3:
-            mag_msg = MagneticField(header=Header(stamp=now, frame_id="imu_link"))
+            
+            mag_msg = MagneticField(header=Header(stamp=now, frame_id=self.imu_frame))
+
             for i in range(3):
                 self.mag_filt[i] = (self.alpha_mag * float(mag_data[i])) + \
                                    ((1.0 - self.alpha_mag) * self.mag_filt[i])

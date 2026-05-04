@@ -96,7 +96,7 @@ def generate_launch_description():
 
     return LaunchDescription([
         DeclareLaunchArgument("use_sim_time", default_value="true"),
-        DeclareLaunchArgument("namespace", default_value="hakan"),
+        DeclareLaunchArgument("namespace", default_value="leader"),
         nav2_controller_server,
         nav2_planner_server,
         nav2_smoother_server,
