@@ -19,7 +19,7 @@ class AckermannOdomSim(Node):
         self.base_frame = f"{self.ns}/base_footprint"
 
         self.wheel_radius = self.declare_parameter("wheel_radius", 0.033).value
-        self.wheel_base   = self.declare_parameter("wheel_base",   0.2).value
+        self.wheel_base   = self.declare_parameter("wheel_base",   0.205).value
 
         # --- Robot State ---
         self.x     = 0.0

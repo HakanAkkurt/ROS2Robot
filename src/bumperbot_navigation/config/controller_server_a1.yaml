@@ -24,7 +24,7 @@ controller_server:
 
     FollowPath:
       plugin: "nav2_regulated_pure_pursuit_controller::RegulatedPurePursuitController"
-      desired_linear_vel: 0.3
+      desired_linear_vel: 0.15 # Car speed while navigation
       min_linear_velocity: 0.0
       lookahead_dist: 0.6
       min_lookahead_dist: 0.4
@@ -39,7 +39,7 @@ controller_server:
       use_velocity_scaled_lookahead_dist: false
       use_regulated_linear_velocity_scaling: true
       regulated_linear_scaling_min_radius: 0.9
-      regulated_linear_scaling_min_speed: 0.12
+      regulated_linear_scaling_min_speed: 0.06 # Car speed while cornering
 
       transform_tolerance: 0.2
       max_angular_accel: 2.0

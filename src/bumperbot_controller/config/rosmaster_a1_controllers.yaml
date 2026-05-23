@@ -37,11 +37,11 @@
       
       traction_wheels_radius: 0.033
       
-      traction_track_width: 0.17
+      traction_track_width: 0.175
       
-      steering_track_width: 0.11
+      steering_track_width: 0.175
       
-      wheelbase: 0.2
+      wheelbase: 0.205
       
       front_steering: true
       open_loop: false

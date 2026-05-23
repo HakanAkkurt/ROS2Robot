@@ -17,7 +17,7 @@ class RosmasterA1Node(Node):
         self.car.create_receive_threading()
 
         # --- Configuration Parameters ---
-        self.wheelbase = 0.2          # Distance between front and rear axles (meters)
+        self.wheelbase = 0.205          # Distance between front and rear axles (meters)
         self.steering_gain = 0.75     # Multiplier for URDF joint visualization
         self.servo_center_deg = 90.0  # Physical center position of the steering servo
         self.servo_min_deg = 50.0     # Left mechanical limit

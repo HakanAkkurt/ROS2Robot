@@ -19,7 +19,7 @@ class RosmasterA1Odometry(Node):
 
         # 1 encoder count = 0.1 mm
         self.meters_per_count = 0.0001
-        self.wheel_base = 0.2 # Distance between front and rear axle
+        self.wheel_base = 0.205 # Distance between front and rear axle
 
         self.x, self.y, self.theta = 0.0, 0.0, 0.0
         self.l_prev, self.r_prev = None, None
