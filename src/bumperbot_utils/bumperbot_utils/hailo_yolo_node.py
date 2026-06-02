@@ -28,7 +28,7 @@ class HailoYoloNode(Node):
                        'hair drier', 'toothbrush']
 
         # 1. Hailo Hardware Setup
-        self.model_path = "/ros2_ws/models/yolov8s_h8l.hef"
+        self.model_path = "/ros2_ws/models/yolov8s.hef"
         self.target = VDevice()
         self.hef = HEF(self.model_path)
         
