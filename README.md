@@ -42,21 +42,22 @@ ros2 run rviz2 rviz2 --ros-args -r __ns:=/leader
 <br>
 docker build -t bumperbot-hailo-jazzy .
 <br>
-docker run -it --privileged \
-  --net=host \
-  --name bumperbot_ai_container \
-  --device /dev/hailo0:/dev/hailo0 \
-  --device /dev/myserial:/dev/myserial \
-  --device /dev/ydlidar:/dev/ydlidar \
-  --device /dev/i2c-1:/dev/i2c-1 \
-  --device /dev/snd:/dev/snd \
-  --device /dev/video0:/dev/video0 \
-  -v /sys:/sys \
-  -v /dev:/dev \
-  -v /usr/share/hailo-models:/ros2_ws/models \
-  -v /home/hakan/ros2_hailo_project/ydlidar/ydlidar_ros2_driver:/ros2_ws/src/ydlidar_ros2_driver \
-  -v /home/hakan/bumperbot_ws/src:/ros2_ws/src/bumperbot_project \
-  -v /home/hakan/ros2_hailo_project/bitmap-fonts:/fonts \
+docker run -it --privileged \<br>
+  --net=host \<br>
+  --name bumperbot_ai_container \<br>
+  --device /dev/hailo0:/dev/hailo0 \<br>
+  --device /dev/myserial:/dev/myserial \<br>
+  --device /dev/ydlidar:/dev/ydlidar \<br>
+  --device /dev/gps:/dev/gps \<br>
+  --device /dev/i2c-1:/dev/i2c-1 \<br>
+  --device /dev/snd:/dev/snd \<br>
+  --device /dev/video0:/dev/video0 \<br>
+  -v /sys:/sys \<br>
+  -v /dev:/dev \<br>
+  -v /usr/share/hailo-models:/ros2_ws/models \<br>
+  -v /home/hakan/ros2_hailo_project/ydlidar/ydlidar_ros2_driver:/ros2_ws/src/ydlidar_ros2_driver \<br>
+  -v /home/hakan/bumperbot_ws/src:/ros2_ws/src/bumperbot_project \<br>
+  -v /home/hakan/ros2_hailo_project/bitmap-fonts:/fonts \<br>
   bumperbot-hailo-jazzy
 <br>
 <br>

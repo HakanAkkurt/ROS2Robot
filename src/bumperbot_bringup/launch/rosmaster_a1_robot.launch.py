@@ -160,6 +160,18 @@ def generate_launch_description():
             name='hailo_yolo_node',
             output='screen'
         ),
+
+        Node(
+            package='nmea_navsat_driver',
+            executable='nmea_serial_driver',
+            name='nmea_serial_driver',
+            output='screen',
+            parameters=[{
+                'port': '/dev/ttyACM0',
+                'baud': 9600,
+                'frame_id': PythonExpression(["'", namespace, "/gps_link'"])
+            }]
+        ),
     ])
 
     return LaunchDescription([
