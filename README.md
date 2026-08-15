@@ -42,6 +42,7 @@ ros2 run rviz2 rviz2 --ros-args -r __ns:=/leader
 <br>
 docker build -t bumperbot-hailo-jazzy .
 <br>
+<br>
 docker run -it --privileged \<br>
   --net=host \<br>
   --name bumperbot_ai_container \<br>
